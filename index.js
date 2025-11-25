@@ -40,7 +40,9 @@ app.post("/tasks",async(req,res)=>{
 /////GET /tasks : Fetch tasks with filtering.
 async function getTasks(){
     try{
-    const tasks = await Task.find();
+    const tasks = await Task.find() .populate("owners", "name email") // <-- owner ka name + email milega
+      .populate("project", "name")
+      .populate("team", "name");
     return tasks;
     }catch(err){
         throw err;
@@ -72,7 +74,7 @@ app.post("/tasks/:id",async(req,res)=>{
     try{
       const updatedTask = await updateTask(req.params.id,req.body);
       if(updatedTask){
-        res.status(200).json(updateTask);
+        res.status(200).json(updatedTask);
       }else{
         res.status(404).json({message:"Task not found"})
       }

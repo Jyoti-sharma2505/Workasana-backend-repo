@@ -3,6 +3,6 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
  name: { type: String, required: true }, // User's name
  email: { type: String, required: true, unique: true },// E mail must be unique
- password: { type: String, required: true, unique: true } // E mail must be unique
+ password: { type: String, required: true} // E mail must be unique
 });
 module.exports = mongoose.model('User', userSchema);
