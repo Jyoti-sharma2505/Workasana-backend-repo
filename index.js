@@ -160,7 +160,7 @@ app.get("/teams", async (req, res) => {
 /////post/id team ///
 async function updateTeamById(id){
     try{
-     const updateTeam = await Team.findById(id);
+     const updateTeam = await Team.findById(id).populate("members","name email");
      return updateTeam;
     }catch(error){
         throw error
