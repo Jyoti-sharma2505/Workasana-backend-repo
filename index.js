@@ -157,6 +157,28 @@ app.get("/teams", async (req, res) => {
     }
 })
 
+/////post/id team ///
+async function updateTeamById(id){
+    try{
+     const updateTeam = await Team.findById(id);
+     return updateTeam;
+    }catch(error){
+        throw error
+    }
+}
+app.get("/team/:id",async(req,res)=>{
+    try{
+    const updateByID = await updateTeamById(req.params.id);
+    if(updateByID){
+        res.status(201).json({message:"Added successfully",data:updateByID})
+    }else{
+        res.status(404).json("Something wents wrong")
+    }
+    }catch(error){
+        res.status(500).json({error:"Interval server error"})
+    }
+})
+
 ///////Project APIs con be added here////////////
 
 /////POST /projects : Add a new project.
