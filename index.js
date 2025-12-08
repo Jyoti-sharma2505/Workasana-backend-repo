@@ -275,6 +275,52 @@ app.get("/projects", async (req, res) => {
     }
 })
 
+///post delete by id ///
+async function deleteByProject(id){
+    try{
+    const deleteById = await Project.findByIdAndDelete(id);
+    return deleteById;
+    }catch(error){
+        throw error
+    }
+}
+app.delete("/project/:id",async(req,res)=>{
+    try{
+    const { id } = req.params;
+   const deletedProject = await deleteByProject(id);
+    if(deletedProject){
+        res.status(201).json({message:"Deleted successfully",deletedProject});
+    }else{
+        res.status(404).json({message:"Not deleted sucesfully"})
+    }
+    }catch(error){
+        res.status(500).json({error:"Something went wrong"})
+    }
+})
+
+////poject updated ///
+async function updatedById(id){
+    try{
+   const updateById= await Project.findByIdAndUpdate(  id,body,{ new: true });
+   return updateById;
+    }catch(error){
+        throw error;
+    }
+}
+app.post("/projects/:id",async(req,res)=>{
+    try{
+     const { id } = req.params;
+     const updateId = await updatedById(id, req.body);
+    if(updateId){
+        res.status(201).json({message:"Updated successfully",data:updateId})
+    }else{
+        res.status(404).json({message:"Not updated successfully"})
+    }
+    }catch(error){
+        res.status(500).json({error:"Somethimg went wrong"})
+    }
+})
+
 ///////User api get can be added here//////
 async function getUsers(){
     try{
