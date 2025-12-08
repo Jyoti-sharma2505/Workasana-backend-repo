@@ -62,9 +62,11 @@ app.get("/tasks", async (req, res) => {
 })
 
 ////POST /tasks/:id : Update a task (e.g., mark it as complete or update any other field).
-async function updateTask(id) {
+async function updateTask(id,body) {
     try {
-        const updatedTask = await Task.findByIdAndUpdate(id);
+        const updatedTask = await Task.findByIdAndUpdate( id,
+            body,
+            { new: true });
         return updatedTask;
     } catch (err) {
         throw err;
@@ -212,7 +214,7 @@ app.post("/team/add-member/:id",async(req,res)=>{
       const { id } = req.params;
         const { memberId } = req.body;
 
-        const updatedTeam = await addMemberbyTeam(teamId, memberId);
+        const updatedTeam = await addMemberbyTeam(id, memberId);
 
         res.status(200).json({
             success: true,
@@ -299,7 +301,7 @@ app.delete("/project/:id",async(req,res)=>{
 })
 
 ////poject updated ///
-async function updatedById(id){
+async function updatedById(id,body){
     try{
    const updateById= await Project.findByIdAndUpdate(  id,body,{ new: true });
    return updateById;
