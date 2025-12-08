@@ -178,6 +178,55 @@ app.get("/team/:id",async(req,res)=>{
         res.status(500).json({error:"Interval server error"})
     }
 })
+   
+
+//post team by is///
+// POST: Add member by team ID
+async function addMemberbyTeam(teamId, memberId) {
+    try {
+        // Fetch team
+        const team = await Team.findById(teamId);
+
+        if (!team) {
+            throw new Error("Team not found");
+        }
+
+        // Check if already added
+        if (team.members.includes(memberId)) {
+            throw new Error("Member already exists in team");
+        }
+
+        // Add member
+        team.members.push(memberId);
+        await team.save();
+
+        // Return updated team
+        return await Team.findById(teamId).populate("members");
+
+    } catch (error) {
+        throw error;
+    }
+}
+app.post("/team/add-member/:id",async(req,res)=>{
+    try{
+      const { id } = req.params;
+        const { memberId } = req.body;
+
+        const updatedTeam = await addMemberbyTeam(teamId, memberId);
+
+        res.status(200).json({
+            success: true,
+            message: "Member added successfully",
+            data: updatedTeam
+        });
+    }catch(error){
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+})
+
 
 ///////Project APIs con be added here////////////
 
