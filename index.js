@@ -112,9 +112,8 @@ async function getTaskById(id){
     try{
     const taskById = await Task.findById(id)
     .populate("owners", "name email")
-      .populate("team", "name description members")
-      .populate("tag","name");
-    return taskById;
+      .populate("project","name");
+    return taskById; 
     }catch(error){
         throw error
     }
