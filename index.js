@@ -118,7 +118,10 @@ async function getTaskById(id){
 }
 app.get("/tasks/:id",async(req,res)=>{
     try{
-      const getTaskId = await getTaskById(req.params.id).populate("owners", "name email", "team","name, description,member");
+      const getTaskId = await getTaskById(req.params.id)
+      .populate("owners", "name email")
+      .populate("team", "name description members")
+      .populate("tag","name");
       if(getTaskId){
         res.status(200).json({ message:"GEt task successfully",data:getTaskId})
       }else{
