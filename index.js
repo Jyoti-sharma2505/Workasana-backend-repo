@@ -120,7 +120,7 @@ app.get("/tasks/:id",async(req,res)=>{
     try{
       const getTaskId = await getTaskById(req.params.id);
       if(getTaskId){
-        res.status(200).json({ message:"GEt task successfully"})
+        res.status(200).json({ message:"GEt task successfully",data:getTaskId})
       }else{
         res.status(401).json({message:"Not get task"})
       }
