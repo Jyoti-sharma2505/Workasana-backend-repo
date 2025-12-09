@@ -110,7 +110,10 @@ app.delete("/tasks/:id", async (req, res) => {
 //////get by id in task/////
 async function getTaskById(id){
     try{
-    const taskById = await Task.findById(id);
+    const taskById = await Task.findById(id)
+    .populate("owners", "name email")
+      .populate("team", "name description members")
+      .populate("tag","name");
     return taskById;
     }catch(error){
         throw error
@@ -118,10 +121,8 @@ async function getTaskById(id){
 }
 app.get("/tasks/:id",async(req,res)=>{
     try{
-      const getTaskId = await getTaskById(req.params.id)
-      .populate("owners", "name email")
-      .populate("team", "name description members")
-      .populate("tag","name");
+      const getTaskId = await getTaskById(req.params.id);
+      
       if(getTaskId){
         res.status(200).json({ message:"GEt task successfully",data:getTaskId})
       }else{
