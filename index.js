@@ -277,6 +277,28 @@ app.get("/projects", async (req, res) => {
     }
 })
 
+/////project get by id//
+async function getProjectById(id){
+    try{
+      const getProject = await Project.findById(id);
+      return getProject;
+    }catch(error){
+        throw error
+    }
+}
+app.get("/projects/:id",async(req,res)=>{
+    try{
+     const projectById = await getProjectById(req.params.id);
+     if(projectById){
+        res.status(201).json({message:"Get data successfully",data:projectById})
+     }else{
+        res.status(401).json({message:"Not get project"})
+     }
+    }catch(error){
+        res.status(500).json({error:"Something went wrorng"})
+    }
+})
+
 ///post delete by id ///
 async function deleteByProject(id){
     try{
